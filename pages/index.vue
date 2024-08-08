@@ -1,33 +1,42 @@
-<script setup lang="ts">
-const camera = useAsyncData("camera", () => window.navigator.mediaDevices.getUserMedia({
-  video: {
-    facingMode: {
-      exact: "environment"
-    }
-  }
-}), {
-  server: false, 
-  immediate: false
-});
+<script setup>
+import * as THREE from "three";
 
-const source = ref<HTMLVideoElement>();
+const target = ref();
+
+onMounted(() => {
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+  );
+
+  const renderer = new THREE.WebGLRenderer();
+  renderer.setSize(500, 500);
+
+  const geometry = new THREE.BoxGeometry(1, 1, 1);
+  const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+  const cube = new THREE.Mesh(geometry, material);
+  scene.add(cube);
+
+  camera.position.z = 5;
+
+  function animate() {
+    requestAnimationFrame(animate);
+
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+
+    renderer.render(scene, camera);
+  }
+
+  target.value.appendChild(renderer.domElement);
+  animate();
+});
 </script>
 
 <template>
- <h1 class="langdex-heading-xl">Good morning user</h1>
- <button @click="() => {
-  camera.execute();
-  // fix on first click only works on second
-  if (camera.data && source) {
-    source.srcObject = camera.data.value;
-  }
- }">Take photo</button>
- <video ref="source" autoplay></video>
+  <h1 class="langdex-heading-xl">Hello</h1>
+  <div ref="target"></div>
 </template>
-
-<style scoped>
-video {
-  width: 250px;
-  height: 400px;
-}
-</style>

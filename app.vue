@@ -31,16 +31,17 @@
   --colour-black: black;
 }
 
-html, body {
- font-family: var(--font-body);
- line-height: 1.5;
- scroll-behavior: smooth;
+html,
+body {
+  font-family: var(--font-body);
+  line-height: 1.5;
+  scroll-behavior: smooth;
 }
 
 .langdex-heading-xl {
- font-size: var(--font-xl);
- font-weight: var(--font-bold);
- line-height: 1.1;
+  font-size: var(--font-xl);
+  font-weight: var(--font-bold);
+  line-height: 1.1;
 }
 
 header {
